@@ -1,10 +1,21 @@
+use clap::Parser;
 use csv::Reader;
 use linfa::Dataset;
 use ndarray::{Array, Array1, Array2};
 use std::fs::File;
 
-fn get_dataset() -> Dataset<f32, i32, ndarray::Dim<[usize; 1]>> {
-    let mut reader = Reader::from_path("./src/heart.csv").unwrap();
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// File to load
+    #[arg(short, long)]
+    filepath: String,
+}
+
+fn get_dataset<N: AsRef<str> + std::convert::AsRef<std::path::Path>>(
+    filepath: N,
+) -> Dataset<f32, i32, ndarray::Dim<[usize; 1]>> {
+    let mut reader = Reader::from_path(filepath).unwrap();
 
     let headers = get_headers(&mut reader);
     let data = get_data(&mut reader);
@@ -55,6 +66,11 @@ fn get_data(reader: &mut Reader<File>) -> Vec<Vec<f32>> {
 }
 
 fn main() {
-    let dataset = get_dataset();
+    let args = Args::parse();
+    println!("File path is {}", args.filepath);
+
+    let filepath = args.filepath;
+
+    let dataset = get_dataset(&filepath);
     println!("{:?}", dataset);
 }
