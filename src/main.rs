@@ -25,7 +25,7 @@ fn get_dataset<N: AsRef<str> + std::convert::AsRef<std::path::Path>>(
     let records = get_records(&data, target_index);
     let targets = get_targets(&data, target_index);
 
-    return Dataset::new(records, targets).with_feature_names(features);
+    Dataset::new(records, targets).with_feature_names(features)
 }
 
 fn get_headers(reader: &mut Reader<File>) -> Vec<String> {
@@ -37,20 +37,22 @@ fn get_headers(reader: &mut Reader<File>) -> Vec<String> {
         .collect();
 }
 
-fn get_records(data: &Vec<Vec<f32>>, target_index: usize) -> Array2<f32> {
+fn get_records(data: &[Vec<f32>], target_index: usize) -> Array2<f32> {
     let mut records: Vec<f32> = vec![];
     for record in data.iter() {
         records.extend_from_slice(&record[0..target_index]);
     }
-    return Array::from(records).into_shape((303, 13)).unwrap();
+
+    Array::from(records).into_shape((303, 13)).unwrap()
 }
 
-fn get_targets(data: &Vec<Vec<f32>>, target_index: usize) -> Array1<i32> {
+fn get_targets(data: &[Vec<f32>], target_index: usize) -> Array1<i32> {
     let targets = data
         .iter()
         .map(|record| record[target_index] as i32)
         .collect::<Vec<i32>>();
-    return Array::from(targets);
+
+    Array::from(targets)
 }
 
 fn get_data(reader: &mut Reader<File>) -> Vec<Vec<f32>> {
