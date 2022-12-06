@@ -67,9 +67,10 @@ fn get_data(reader: &mut Reader<File>) -> Vec<Vec<f32>> {
 
 fn main() {
     let args = Args::parse();
-    println!("File path is {}", args.filepath);
 
     let filepath = args.filepath;
+
+    println!("File path is {}", filepath);
 
     let dataset = get_dataset(&filepath);
     println!("{:?}", dataset);
