@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'ml-project'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ml-project",
+                    "--package=ml-project"
+                ],
+                "filter": {
+                    "name": "ml-project",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "--filepath",
+                "./src/heart.csv"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'ml-project'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=ml-project",
+                    "--package=ml-project"
+                ],
+                "filter": {
+                    "name": "ml-project",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
